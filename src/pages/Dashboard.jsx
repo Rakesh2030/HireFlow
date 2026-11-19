@@ -32,7 +32,7 @@ export default function Dashboard() {
             <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
               Welcome back, <span className="bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500 bg-clip-text text-transparent">{profile.name || 'Job Hunter'}</span>
             </h1>
-            <span className="text-2xl">⚡</span>
+            {/* <span className="text-2xl">⚡</span> */}
           </div>
           <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
             Here is your live application pipeline, upcoming interviews, and career velocity.
