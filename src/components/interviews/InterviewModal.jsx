@@ -8,7 +8,6 @@ export default function InterviewModal({ isOpen, onClose, interviewToEdit }) {
   const dispatch = useDispatch();
   const jobs = useSelector((state) => state.jobs.items);
 
-  // Helper for default interview date 2 days in the future
   const getDefaultInterviewDate = () => {
     const d = new Date();
     d.setDate(d.getDate() + 2);
@@ -16,7 +15,6 @@ export default function InterviewModal({ isOpen, onClose, interviewToEdit }) {
     return d.toISOString().slice(0, 16);
   };
 
-  // Form state initialized directly
   const [formData, setFormData] = useState(() => {
     if (interviewToEdit) {
       return {
@@ -42,7 +40,6 @@ export default function InterviewModal({ isOpen, onClose, interviewToEdit }) {
 
   if (!isOpen) return null;
 
-  // Handle selecting an existing job from applications list
   const handleJobSelect = (e) => {
     const selectedJobId = e.target.value;
     const selectedJob = jobs.find((j) => j.id === selectedJobId);
@@ -90,17 +87,17 @@ export default function InterviewModal({ isOpen, onClose, interviewToEdit }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
+        className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Modal Dialog */}
-      <div className="relative w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl transition-all dark:border-slate-800 dark:bg-slate-900 sm:p-7">
+      <div className="relative w-full max-w-lg rounded-3xl border border-slate-200/80 bg-white/95 p-6 shadow-2xl backdrop-blur-xl transition-all dark:border-slate-800 dark:bg-[#0f172a]/95 sm:p-7">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
           <div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">
               {interviewToEdit ? 'Edit Interview' : 'Schedule New Interview'}
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -110,7 +107,7 @@ export default function InterviewModal({ isOpen, onClose, interviewToEdit }) {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+            className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200 transition-colors"
           >
             <X className="h-5 w-5" />
           </button>
@@ -118,7 +115,6 @@ export default function InterviewModal({ isOpen, onClose, interviewToEdit }) {
 
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="mt-5 space-y-4">
-          {/* Quick autofill from existing applications */}
           {jobs.length > 0 && !interviewToEdit && (
             <div>
               <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
@@ -127,7 +123,7 @@ export default function InterviewModal({ isOpen, onClose, interviewToEdit }) {
               <select
                 value={formData.jobId}
                 onChange={handleJobSelect}
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:focus:bg-slate-900"
+                className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-800 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-slate-200 dark:focus:bg-slate-900"
               >
                 <option value="">-- Choose from your applications --</option>
                 {jobs.map((job) => (
@@ -152,7 +148,7 @@ export default function InterviewModal({ isOpen, onClose, interviewToEdit }) {
                 onChange={handleChange}
                 placeholder="e.g. Google"
                 required
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:bg-slate-900"
+                className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-white dark:focus:bg-slate-900"
               />
             </div>
 
@@ -168,7 +164,7 @@ export default function InterviewModal({ isOpen, onClose, interviewToEdit }) {
                 onChange={handleChange}
                 placeholder="e.g. Frontend Engineer"
                 required
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:bg-slate-900"
+                className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-white dark:focus:bg-slate-900"
               />
             </div>
           </div>
@@ -185,7 +181,7 @@ export default function InterviewModal({ isOpen, onClose, interviewToEdit }) {
                 value={formData.interviewDate}
                 onChange={handleChange}
                 required
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:bg-slate-900"
+                className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-white dark:focus:bg-slate-900"
               />
             </div>
 
@@ -200,7 +196,7 @@ export default function InterviewModal({ isOpen, onClose, interviewToEdit }) {
                 value={formData.type}
                 onChange={handleChange}
                 placeholder="e.g. Technical Round 1, HR Screen"
-                className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:bg-slate-900"
+                className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-white dark:focus:bg-slate-900"
               />
             </div>
           </div>
@@ -214,7 +210,7 @@ export default function InterviewModal({ isOpen, onClose, interviewToEdit }) {
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:bg-slate-900"
+              className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs font-semibold text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-white dark:focus:bg-slate-900"
             >
               <option value="Scheduled">Scheduled</option>
               <option value="Completed">Completed</option>
@@ -233,22 +229,22 @@ export default function InterviewModal({ isOpen, onClose, interviewToEdit }) {
               value={formData.notes}
               onChange={handleChange}
               placeholder="e.g. Zoom link, revise React hooks, system design diagrams..."
-              className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:bg-slate-900"
+              className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 p-3 text-xs text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-white dark:focus:bg-slate-900"
             />
           </div>
 
           {/* Actions */}
-          <div className="mt-6 flex items-center justify-end gap-3 border-t border-slate-100 pt-4 dark:border-slate-800">
+          <div className="mt-6 flex items-center justify-end gap-2.5 border-t border-slate-100 pt-4 dark:border-slate-800">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+              className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="rounded-xl bg-blue-600 px-5 py-2 text-xs font-semibold text-white shadow-sm shadow-blue-500/20 hover:bg-blue-700"
+              className="rounded-xl bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 px-5 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-500/20 hover:from-indigo-500 hover:to-purple-500 active:scale-[0.98] transition-all"
             >
               {interviewToEdit ? 'Save Changes' : 'Schedule Interview'}
             </button>

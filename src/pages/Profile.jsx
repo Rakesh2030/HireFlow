@@ -20,10 +20,8 @@ export default function Profile() {
   const profile = useSelector((state) => state.profile.data);
   const jobs = useSelector((state) => state.jobs.items);
 
-  // Edit mode toggle
   const [isEditing, setIsEditing] = useState(false);
 
-  // Form local state
   const [formData, setFormData] = useState({
     name: profile.name || '',
     email: profile.email || '',
@@ -34,7 +32,6 @@ export default function Profile() {
     bio: profile.bio || '',
   });
 
-  // Calculate Career Funnel & Conversion Metrics
   const totalApplications = jobs.length;
   const interviewStageCount = jobs.filter(
     (j) => j.status === 'Interview' || j.status === 'Offered'
@@ -46,13 +43,11 @@ export default function Profile() {
   const offerRate =
     totalApplications > 0 ? Math.round((offersCount / totalApplications) * 100) : 0;
 
-  // Handle Input Changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Save Profile Changes
   const handleSaveProfile = (e) => {
     e.preventDefault();
     dispatch(updateProfile(formData));
@@ -60,7 +55,6 @@ export default function Profile() {
     toast.success('Profile details saved successfully!');
   };
 
-  // Cancel Editing
   const handleCancel = () => {
     setFormData({
       name: profile.name || '',
@@ -74,7 +68,6 @@ export default function Profile() {
     setIsEditing(false);
   };
 
-  // Reset all sample data
   const handleResetData = () => {
     if (
       window.confirm(
@@ -102,10 +95,10 @@ export default function Profile() {
       {/* Top Header */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
             Profile & Career Goals
           </h1>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
             Manage your personal portfolio details and track your application conversion rates.
           </p>
         </div>
@@ -114,7 +107,7 @@ export default function Profile() {
           <button
             type="button"
             onClick={() => setIsEditing(true)}
-            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm shadow-blue-500/25 transition-all hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 px-4 py-2.5 text-xs font-semibold text-white shadow-md shadow-indigo-500/25 transition-all hover:from-indigo-500 hover:to-purple-500 active:scale-[0.98]"
           >
             <Edit3 className="h-4 w-4" />
             <span>Edit Profile</span>
@@ -125,12 +118,12 @@ export default function Profile() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Left Column: User Profile Card / Form */}
         <div className="lg:col-span-2">
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900">
+          <div className="rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-xs backdrop-blur-sm dark:border-slate-800/80 dark:bg-[#0f172a]/70">
             {isEditing ? (
               /* Edit Profile Form */
               <form onSubmit={handleSaveProfile} className="space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-slate-800">
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
                     Edit Profile Details
                   </h3>
                   <span className="text-xs text-slate-400">Update your target job info</span>
@@ -147,7 +140,7 @@ export default function Profile() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:bg-slate-900"
+                      className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-white dark:focus:bg-slate-900"
                     />
                   </div>
 
@@ -161,7 +154,7 @@ export default function Profile() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:bg-slate-900"
+                      className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-white dark:focus:bg-slate-900"
                     />
                   </div>
                 </div>
@@ -177,7 +170,7 @@ export default function Profile() {
                       value={formData.role}
                       onChange={handleChange}
                       placeholder="e.g. Frontend Developer"
-                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:bg-slate-900"
+                      className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-white dark:focus:bg-slate-900"
                     />
                   </div>
 
@@ -191,7 +184,7 @@ export default function Profile() {
                       value={formData.experience}
                       onChange={handleChange}
                       placeholder="e.g. 3+ Years"
-                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:bg-slate-900"
+                      className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-white dark:focus:bg-slate-900"
                     />
                   </div>
                 </div>
@@ -207,7 +200,7 @@ export default function Profile() {
                       value={formData.targetSalary}
                       onChange={handleChange}
                       placeholder="e.g. $140,000 / yr or ₹20 LPA"
-                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:bg-slate-900"
+                      className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-white dark:focus:bg-slate-900"
                     />
                   </div>
 
@@ -221,7 +214,7 @@ export default function Profile() {
                       value={formData.location}
                       onChange={handleChange}
                       placeholder="e.g. Remote / Bangalore"
-                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:bg-slate-900"
+                      className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-white dark:focus:bg-slate-900"
                     />
                   </div>
                 </div>
@@ -235,21 +228,21 @@ export default function Profile() {
                     rows="3"
                     value={formData.bio}
                     onChange={handleChange}
-                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:bg-slate-900"
+                    className="mt-1.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/70 p-3 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-3 focus:ring-indigo-500/10 dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-white dark:focus:bg-slate-900"
                   />
                 </div>
 
-                <div className="flex items-center justify-end gap-3 pt-3">
+                <div className="flex items-center justify-end gap-2.5 pt-3">
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                    className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="rounded-xl bg-blue-600 px-5 py-2 text-xs font-semibold text-white shadow-sm shadow-blue-500/20 hover:bg-blue-700"
+                    className="rounded-xl bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 px-5 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-500/20 hover:from-indigo-500 hover:to-purple-500 active:scale-[0.98] transition-all"
                   >
                     Save Changes
                   </button>
@@ -259,34 +252,34 @@ export default function Profile() {
               /* View Profile Card */
               <div>
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-3xl font-extrabold text-white shadow-md shadow-blue-500/30">
+                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-gradient-to-tr from-indigo-600 via-violet-600 to-purple-600 text-3xl font-extrabold text-white shadow-lg shadow-indigo-500/30 ring-4 ring-indigo-500/10">
                     {profile.name ? profile.name.charAt(0).toUpperCase() : 'U'}
                   </div>
 
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
-                      <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                      <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">
                         {profile.name}
                       </h2>
-                      <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-700 dark:bg-blue-950/60 dark:text-blue-300">
+                      <span className="rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-0.5 text-xs font-bold text-indigo-600 dark:text-indigo-400">
                         {profile.role || 'Job Hunter'}
                       </span>
                     </div>
 
                     <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
                       <span className="flex items-center gap-1.5">
-                        <Mail className="h-3.5 w-3.5" />
+                        <Mail className="h-3.5 w-3.5 text-indigo-500" />
                         {profile.email}
                       </span>
                       {profile.location && (
                         <span className="flex items-center gap-1.5">
-                          <MapPin className="h-3.5 w-3.5" />
+                          <MapPin className="h-3.5 w-3.5 text-indigo-500" />
                           {profile.location}
                         </span>
                       )}
                       {profile.experience && (
                         <span className="flex items-center gap-1.5">
-                          <Award className="h-3.5 w-3.5" />
+                          <Award className="h-3.5 w-3.5 text-indigo-500" />
                           {profile.experience} Experience
                         </span>
                       )}
@@ -296,9 +289,9 @@ export default function Profile() {
 
                 {/* Target Career Preference Pills */}
                 <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3.5 dark:border-slate-800 dark:bg-slate-800/40">
-                    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                      Target Salary
+                  <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4 dark:border-slate-800/80 dark:bg-slate-900/40">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      Target Compensation
                     </span>
                     <p className="mt-1 flex items-center gap-1 text-sm font-bold text-emerald-600 dark:text-emerald-400">
                       <DollarSign className="h-4 w-4" />
@@ -306,12 +299,12 @@ export default function Profile() {
                     </p>
                   </div>
 
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3.5 dark:border-slate-800 dark:bg-slate-800/40">
-                    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                      Preferred Job Title
+                  <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4 dark:border-slate-800/80 dark:bg-slate-900/40">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      Target Role Title
                     </span>
                     <p className="mt-1 flex items-center gap-1 text-sm font-bold text-slate-900 dark:text-white">
-                      <Briefcase className="h-4 w-4 text-blue-500" />
+                      <Briefcase className="h-4 w-4 text-indigo-500" />
                       <span>{profile.role || 'Not set'}</span>
                     </p>
                   </div>
@@ -319,11 +312,11 @@ export default function Profile() {
 
                 {/* Bio */}
                 {profile.bio && (
-                  <div className="mt-5 border-t border-slate-100 pt-4 dark:border-slate-800">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  <div className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800">
+                    <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                       About Me
                     </h4>
-                    <p className="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                    <p className="mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
                       {profile.bio}
                     </p>
                   </div>
@@ -335,13 +328,13 @@ export default function Profile() {
 
         {/* Right Column: Career Progress & Conversion Metrics */}
         <div className="space-y-6">
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900">
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-blue-50 p-2 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400">
+          <div className="rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-xs backdrop-blur-sm dark:border-slate-800/80 dark:bg-[#0f172a]/70">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
                 <Target className="h-4 w-4" />
               </div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                Career Funnel Metrics
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                Career Conversion Funnel
               </h3>
             </div>
 
@@ -349,16 +342,16 @@ export default function Profile() {
               {/* Interview Rate */}
               <div>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-medium text-slate-600 dark:text-slate-300">
-                    Interview Conversion Rate
+                  <span className="font-semibold text-slate-600 dark:text-slate-300">
+                    Interview Rate
                   </span>
-                  <span className="font-bold text-blue-600 dark:text-blue-400">
+                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
                     {interviewRate}%
                   </span>
                 </div>
-                <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
                   <div
-                    className="h-full rounded-full bg-blue-600 transition-all duration-500"
+                    className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-500 shadow-xs"
                     style={{ width: `${Math.min(interviewRate, 100)}%` }}
                   />
                 </div>
@@ -370,47 +363,47 @@ export default function Profile() {
               {/* Offer Rate */}
               <div>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-medium text-slate-600 dark:text-slate-300">
-                    Offer Conversion Rate
+                  <span className="font-semibold text-slate-600 dark:text-slate-300">
+                    Offer Rate
                   </span>
                   <span className="font-bold text-emerald-600 dark:text-emerald-400">
                     {offerRate}%
                   </span>
                 </div>
-                <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
                   <div
-                    className="h-full rounded-full bg-emerald-600 transition-all duration-500"
+                    className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500 shadow-xs"
                     style={{ width: `${Math.min(offerRate, 100)}%` }}
                   />
                 </div>
                 <p className="mt-1 text-[11px] text-slate-400">
-                  {offersCount} formal job offers received
+                  {offersCount} formal offers received
                 </p>
               </div>
             </div>
 
-            <div className="mt-5 rounded-xl bg-slate-50 p-3 text-xs text-slate-500 dark:bg-slate-800/40 dark:text-slate-400">
-              💡 <strong>Industry Benchmark:</strong> Average tech applicant gets 10-15% interview rate and 2-5% offer rate.
+            <div className="mt-5 rounded-2xl border border-slate-100 bg-slate-50/70 p-3.5 text-[11px] text-slate-500 dark:border-slate-800/80 dark:bg-slate-900/40 dark:text-slate-400">
+              💡 <strong>Industry Standard:</strong> Tech applicants usually average ~10-15% interview rate and 2-5% offer conversion.
             </div>
           </div>
 
           {/* Reset Demo Data Card */}
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900">
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-amber-50 p-2 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400">
+          <div className="rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-xs backdrop-blur-sm dark:border-slate-800/80 dark:bg-[#0f172a]/70">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400">
                 <RotateCcw className="h-4 w-4" />
               </div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
                 Demo Data Controls
               </h3>
             </div>
-            <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-              Want to start fresh or test the application? Click below to restore initial mock jobs and interviews.
+            <p className="mt-2 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              Want to test the app with a clean baseline? Reset to restore sample applications and interviews.
             </p>
             <button
               type="button"
               onClick={handleResetData}
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200/80 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 transition-colors"
             >
               <RotateCcw className="h-3.5 w-3.5" />
               <span>Reset to Sample Data</span>

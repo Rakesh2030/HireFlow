@@ -13,37 +13,37 @@ import toast from 'react-hot-toast';
 import KanbanColumn from '../components/kanban/KanbanColumn';
 import JobModal from '../components/applications/JobModal';
 
-// 5 Main Pipeline Columns
+// 5 Main Pipeline Columns with refined styling
 const COLUMNS = [
   {
     id: 'Applied',
     title: 'Applied',
-    color: '#3b82f6',
-    badgeClass: 'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300',
+    color: '#6366f1',
+    badgeClass: 'border-indigo-500/20 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400',
   },
   {
     id: 'Shortlisted',
     title: 'Shortlisted',
     color: '#8b5cf6',
-    badgeClass: 'bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300',
+    badgeClass: 'border-violet-500/20 bg-violet-500/10 text-violet-600 dark:text-violet-400',
   },
   {
     id: 'Interview',
     title: 'Interview',
     color: '#f59e0b',
-    badgeClass: 'bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300',
+    badgeClass: 'border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400',
   },
   {
     id: 'Offered',
     title: 'Offered',
     color: '#10b981',
-    badgeClass: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300',
+    badgeClass: 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
   },
   {
     id: 'Rejected',
     title: 'Rejected',
-    color: '#ef4444',
-    badgeClass: 'bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300',
+    color: '#f43f5e',
+    badgeClass: 'border-rose-500/20 bg-rose-500/10 text-rose-500 dark:text-rose-400',
   },
 ];
 
@@ -51,14 +51,10 @@ export default function Kanban() {
   const dispatch = useDispatch();
   const jobs = useSelector((state) => state.jobs.items);
 
-  // Active dragged job for DragOverlay
   const [activeJob, setActiveJob] = useState(null);
-
-  // Modal state for Add/Edit
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [jobToEdit, setJobToEdit] = useState(null);
 
-  // Setup sensors with activation constraint so regular clicks aren't captured as drags
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -67,7 +63,6 @@ export default function Kanban() {
     })
   );
 
-  // Drag start handler
   const handleDragStart = (event) => {
     const { active } = event;
     const foundJob = jobs.find((j) => j.id === active.id);
@@ -76,7 +71,6 @@ export default function Kanban() {
     }
   };
 
-  // Drag end handler: drop card into column
   const handleDragEnd = (event) => {
     const { active, over } = event;
     setActiveJob(null);
@@ -84,13 +78,10 @@ export default function Kanban() {
     if (!over) return;
 
     const jobId = active.id;
-    // Over ID can be either the column ID or another card's ID
     let targetStatus = over.id;
 
-    // Check if target is a column
     const isColumn = COLUMNS.some((col) => col.id === targetStatus);
 
-    // If dropped over a card, find that card's column
     if (!isColumn) {
       const overJob = jobs.find((j) => j.id === targetStatus);
       if (overJob) {
@@ -103,13 +94,12 @@ export default function Kanban() {
     if (currentJob && currentJob.status !== targetStatus) {
       dispatch(updateJobStatus({ id: jobId, status: targetStatus }));
       toast.success(
-        `Moved ${currentJob.company} (${currentJob.position}) to ${targetStatus}!`,
+        `Moved ${currentJob.company} to ${targetStatus}!`,
         { icon: '🚀' }
       );
     }
   };
 
-  // Open Edit Modal
   const handleEditJob = (job) => {
     setJobToEdit(job);
     setIsModalOpen(true);
@@ -120,11 +110,11 @@ export default function Kanban() {
       {/* Top Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
             Kanban Board
           </h1>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            Drag and drop applications across stages to update their progress in real-time.
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
+            Drag and drop applications across hiring stages to update their progress in real-time.
           </p>
         </div>
 
@@ -134,7 +124,7 @@ export default function Kanban() {
             setJobToEdit(null);
             setIsModalOpen(true);
           }}
-          className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm shadow-blue-500/25 transition-all hover:bg-blue-700"
+          className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 px-4 py-2.5 text-xs font-semibold text-white shadow-md shadow-indigo-500/25 transition-all hover:from-indigo-500 hover:to-purple-500 active:scale-[0.98]"
         >
           <PlusCircle className="h-4 w-4" />
           <span>Add Application</span>
@@ -142,10 +132,10 @@ export default function Kanban() {
       </div>
 
       {/* Helpful Tip Banner */}
-      <div className="flex items-center gap-2.5 rounded-xl border border-blue-100 bg-blue-50/60 px-4 py-2.5 text-xs text-blue-700 dark:border-blue-900/60 dark:bg-blue-950/40 dark:text-blue-300">
-        <Sparkles className="h-4 w-4 shrink-0 text-blue-500" />
+      <div className="flex items-center gap-2.5 rounded-2xl border border-indigo-500/20 bg-indigo-500/5 px-4 py-3 text-xs text-indigo-700 dark:border-indigo-500/15 dark:bg-indigo-950/20 dark:text-indigo-300">
+        <Sparkles className="h-4 w-4 shrink-0 text-indigo-500" />
         <span>
-          <strong>Pro-tip:</strong> Simply drag any application card and drop it into another column (e.g. from <em>Applied</em> to <em>Interview</em>).
+          <strong>Drag & Drop:</strong> Grab any card and drop it directly into another column to seamlessly advance your job search workflow.
         </span>
       </div>
 
@@ -170,25 +160,25 @@ export default function Kanban() {
           })}
         </div>
 
-        {/* Drag Overlay: preview card while dragging */}
+        {/* Drag Overlay */}
         <DragOverlay>
           {activeJob ? (
-            <div className="w-72 rounded-xl border-2 border-blue-500 bg-white p-4 shadow-2xl dark:bg-slate-900">
+            <div className="w-72 rounded-2xl border-2 border-indigo-500 bg-white p-4 shadow-2xl dark:bg-[#0f172a]">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-xs font-bold text-blue-600 dark:bg-blue-950 dark:text-blue-300">
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/10 text-xs font-bold text-indigo-600 dark:text-indigo-400">
                   {activeJob.company.charAt(0)}
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">
                     {activeJob.company}
                   </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
                     {activeJob.position}
                   </p>
                 </div>
               </div>
-              <p className="mt-2 text-xs font-semibold text-blue-600 dark:text-blue-400">
-                Dropping into new stage...
+              <p className="mt-2 text-[11px] font-semibold text-indigo-600 dark:text-indigo-400">
+                Updating application status...
               </p>
             </div>
           ) : null}
@@ -196,14 +186,16 @@ export default function Kanban() {
       </DndContext>
 
       {/* Add / Edit Job Modal */}
-      <JobModal
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setJobToEdit(null);
-        }}
-        jobToEdit={jobToEdit}
-      />
+      {isModalOpen && (
+        <JobModal
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            setJobToEdit(null);
+          }}
+          jobToEdit={jobToEdit}
+        />
+      )}
     </div>
   );
 }
